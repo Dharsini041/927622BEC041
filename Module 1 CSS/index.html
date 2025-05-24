@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Community Event Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and Base Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f7f5f5 url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    nav {
+      background: #2c3e50;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+    nav a {
+      color: white;
+      margin: 0.5rem 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #3590b4; }
+
+    /* Welcome Banner */
+    #mainHeader {
+      background: linear-gradient(90deg, #db3b56, #9b59b6);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    /* Typography Enhancements */
+    h2 { text-align: center; text-transform: uppercase; margin: 1.5rem 0; }
+    h3, p { margin-bottom: 1rem; }
+    .highlight { background: rgba(18, 197, 87, 0.904); padding: 0.3rem; border-radius: 5px; }
+
+    /* Event Gallery */
+    .eventCard {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .eventCard:hover { transform: scale(1.05); }
+    .event-img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 10px;
+      border: 3px solid #555;
+    }
+
+    /* Table */
+    table {
+      width: 90%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 1rem;
+    }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+
+    /* Form Styling */
+    form {
+      background: white;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    label, input, select, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    input, select, textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #3498db;
+    }
+    button {
+      background: #3498db;
+      color: white;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #2980b9; }
+
+    /* Lists */
+    ul.nav-list { list-style: none; padding: 0; }
+    ul.nav-list li { display: inline-block; margin: 0 1rem; }
+
+    /* Multi-column News */
+    .news-section {
+      column-count: 2;
+      column-gap: 30px;
+      column-rule: 1px solid rgb(65, 67, 68);
+      padding: 2rem;
+      background: #c08bc2;
+      margin: 2rem;
+    }
+
+    /* Video */
+    video {
+      display: block;
+      max-width: 90%;
+      margin: 2rem auto;
+      border-radius: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      nav { flex-direction: column; }
+      .eventCard { margin: 1rem auto; max-width: 90%; }
+      body { font-size: 90%; }
+      h2 { font-size: 1.2rem; }
+      .news-section { column-count: 1; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+    <a href="#help">Help</a>
+  </nav>
+
+  <header id="mainHeader">Welcome to the <span style="color:hsl(113, 92%, 48%)">Community Event Portal</span></header>
+
+  <section id="events">
+    <h2 class="highlight">Community Highlights</h2>
+    <div class="eventCard"><img src="picnic day.jpg" alt="Picnic" class="event-img" /><h3>Picnic</h3></div>
+    <div class="eventCard"><img src="art fest.png" alt="Art Fest" class="event-img" /><h3>Art Fest</h3></div>
+    <div class="eventCard"><img src="music.jpg" alt="Art Fest" class="event-img" /><h3>Art Fest</h3></div>
+  </section>
+
+  <section>
+    <h2>Register for Events</h2>
+    <form onsubmit="event.preventDefault(); document.getElementById('confirmation').textContent='Thank you for registering! We looking forward for your active participation';">
+      <label>Name: <input type="text" required autofocus /></label>
+      <label>Email: <input type="email" required /></label>
+      <label>Date: <input type="date" required /></label>
+      <label>Phone: <input type="text" onblur="validatePhone(this)" /></label>
+      <label>Event Type:
+        <select onchange="displayFee(); savePreference();" id="eventType">
+          <option value="meetup">Meetup</option>
+          <option value="workshop">Workshop</option>
+          <option value="webinar">Webinar</option>
+        </select>
+      </label>
+      <p id="feeDisplay"></p>
+      <label>Message: <textarea onkeyup="updateCharCount(this)"></textarea></label>
+      <p>Characters: <span id="charCount">0</span></p>
+      <button type="submit">Register</button>
+      <output id="confirmation"></output>
+    </form>
+  </section>
+
+  <section class="news-section">
+    <h3>Community News!!</h3>
+    <p>Due to popular demand, Community Music Night is back! Enjoy live performances every Friday from local bands and solo artists. Don’t forget to bring a picnic blanket!</p>
+    <p>Families enjoyed games, music, and food stalls during the Picnic Day celebration at Lakeside Park. This year saw participation from 20+ community groups.
+
+</p>
+  </section>
+
+  <section>
+    <h2>Promo Video</h2>
+    <video controls>
+      <source src="promo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <footer>
+    &copy; 2025 Local Community. All rights reserved.
+  </footer>
+
+  <script>
+    function updateCharCount(textarea) {
+      document.getElementById('charCount').textContent = textarea.value.length;
+    }
+    function validatePhone(input) {
+      const valid = /^[0-9]{10}$/.test(input.value);
+      if (!valid) alert("Enter a valid 10-digit phone number.");
+    }
+    function displayFee() {
+      const type = document.getElementById('eventType').value;
+      const fee = type === 'webinar' ? 10 : type === 'workshop' ? 20 : 5;
+      document.getElementById('feeDisplay').textContent = `Fee: $${fee}`;
+    }
+    function savePreference() {
+      const pref = document.getElementById('eventType').value;
+      localStorage.setItem('eventPreference', pref);
+    }
+    window.onload = () => {
+      const pref = localStorage.getItem('eventPreference');
+      if (pref) {
+        document.getElementById('eventType').value = pref;
+        displayFee();
+      }
+    }
+  </script>
+</body>
+</html>
